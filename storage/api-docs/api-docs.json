@@ -1,0 +1,683 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Podcast API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/episodes": {
+            "get": {
+                "tags": [
+                    "Episodes"
+                ],
+                "summary": "Liste tous les épisodes",
+                "operationId": "39bb119c426c59c593560bf467c00fe9",
+                "responses": {
+                    "200": {
+                        "description": "Liste des épisodes"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Episodes"
+                ],
+                "summary": "Créer un nouvel épisode",
+                "operationId": "1977d240cbbdd586e14ae1cda09bdb61",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "podcast_id",
+                                    "title",
+                                    "audio_url"
+                                ],
+                                "properties": {
+                                    "podcast_id": {
+                                        "type": "integer"
+                                    },
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "audio_url": {
+                                        "type": "string"
+                                    },
+                                    "duration": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Épisode créé"
+                    }
+                }
+            }
+        },
+        "/api/episodes/{id}": {
+            "get": {
+                "tags": [
+                    "Episodes"
+                ],
+                "summary": "Afficher un épisode",
+                "operationId": "682c9f0b582614c5d25814ad0a6659c0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'épisode",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détails d'un épisode"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Episodes"
+                ],
+                "summary": "Modifier un épisode",
+                "operationId": "7c242aee03c0c562d61e184cc40ffbcf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Épisode mis à jour"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Episodes"
+                ],
+                "summary": "Supprimer un épisode",
+                "operationId": "2b31a0a0e3d3c3f435a21fe63779b608",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Épisode supprimé"
+                    }
+                }
+            }
+        },
+        "/api/hosts": {
+            "get": {
+                "tags": [
+                    "Hosts"
+                ],
+                "summary": "Lister tous les hosts",
+                "operationId": "830cd25d337656d5bc42faa7b8565db5",
+                "responses": {
+                    "200": {
+                        "description": "Liste des hosts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Host"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Hosts"
+                ],
+                "summary": "Créer un nouveau host",
+                "operationId": "87ac5d8eb9c7da60122f373f261566b3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Host Example"
+                                    },
+                                    "bio": {
+                                        "type": "string",
+                                        "example": "Biographie du host"
+                                    },
+                                    "avatar": {
+                                        "type": "string",
+                                        "example": "avatar.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Host créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Host"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hosts/{id}": {
+            "get": {
+                "tags": [
+                    "Hosts"
+                ],
+                "summary": "Afficher un host par ID",
+                "operationId": "b3fd9e7fb77c05d2c56d9d986af84416",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du host",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Host trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Host"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Host non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Hosts"
+                ],
+                "summary": "Mettre à jour un host",
+                "operationId": "3a9629ba010ad7dd37bbf39c531f4d54",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du host",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "bio": {
+                                        "type": "string"
+                                    },
+                                    "avatar": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Host mis à jour",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Host"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Hosts"
+                ],
+                "summary": "Supprimer un host",
+                "operationId": "d758087e4042672a7896df7123cb105c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du host",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Host supprimé"
+                    }
+                }
+            }
+        },
+        "/api/podcasts": {
+            "get": {
+                "tags": [
+                    "Podcasts"
+                ],
+                "summary": "Lister tous les podcasts",
+                "operationId": "28abe6e0a78fe6785659a51dde99679e",
+                "responses": {
+                    "200": {
+                        "description": "Liste paginée des podcasts"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Podcasts"
+                ],
+                "summary": "Créer un nouveau podcast",
+                "operationId": "e8917ecbdaa178c760e0992b16b91fb1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "title"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Podcast créé"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/podcasts/{id}": {
+            "get": {
+                "tags": [
+                    "Podcasts"
+                ],
+                "summary": "Afficher un podcast",
+                "operationId": "9009d1f97f328b3e48f85075f935aa0f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du podcast",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détails du podcast"
+                    },
+                    "404": {
+                        "description": "Podcast non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Podcasts"
+                ],
+                "summary": "Modifier un podcast",
+                "operationId": "e72afa88b52a2b4864a2e29cca8cdabc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "image": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Podcast mis à jour"
+                    },
+                    "401": {
+                        "description": "Non autorisé"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Podcasts"
+                ],
+                "summary": "Supprimer un podcast",
+                "operationId": "378754b8c72fa0738edc3691e12cfb13",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Podcast supprimé"
+                    },
+                    "401": {
+                        "description": "Non autorisé"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Inscription d’un utilisateur",
+                "description": "Créer un nouvel utilisateur et retourner un token d’authentification",
+                "operationId": "2f25885f3b6f61ca11724ec302d2e439",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "user"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Utilisateur créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User created successfully"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Connexion utilisateur",
+                "description": "Authentifier un utilisateur et retourner un token",
+                "operationId": "0fc9610184083ac6dddab2c63139225a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connexion réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successful"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Identifiants incorrects"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Déconnexion utilisateur",
+                "description": "Supprime le token de l’utilisateur connecté",
+                "operationId": "67d5147477c548bfbc3f982833bbc7bd",
+                "responses": {
+                    "200": {
+                        "description": "Déconnecté avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged out successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Host": {
+                "title": "Host",
+                "description": "Modèle Host",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "bio": {
+                        "type": "string",
+                        "example": "Podcaster et auteur"
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "example": "avatar.jpg"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-01 12:00:00"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-01-01 12:00:00"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Episodes",
+            "description": "Endpoints pour gérer les épisodes"
+        },
+        {
+            "name": "Hosts",
+            "description": "Gestion des hosts"
+        },
+        {
+            "name": "Podcasts",
+            "description": "Endpoints pour gérer les podcasts"
+        },
+        {
+            "name": "Authentification",
+            "description": "Authentification"
+        }
+    ]
+}

@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Episode extends Model
 {
     use HasFactory;
-    protected $fillable = ['title','description','audio_file','podcast_id',];
 
-    public function podcast() {
-    return $this->belongsTo(Podcast::class);
+    protected $fillable = ['podcast_id','title','description','audio_url','duration',];
+    
+    public function podcast()
+    {
+        return $this->belongsTo(Podcast::class);
+    }
 }
-}
+

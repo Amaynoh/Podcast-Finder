@@ -2,24 +2,93 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+// Importation des contrôleurs
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PodcastController;
+use App\Http\Controllers\EpisodeController;
+use App\Http\Controllers\HostsController;
+
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| 1. Route test Sanctum → retourne l’utilisateur connecté
 |--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
 */
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 
-Route::post('/register', [UserController::class, 'register'])->name('register');
-Route::post('/login', [UserController::class, 'login'])->name('login');
+/*
+|--------------------------------------------------------------------------
+| 2. AUTHENTIFICATION (routes publiques)
+|--------------------------------------------------------------------------
+*/
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+
+
+/*
+|--------------------------------------------------------------------------
+| 3. DÉCONNEXION (protégé)
+|--------------------------------------------------------------------------
+*/
 Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);
+
+
+/*
+|--------------------------------------------------------------------------
+| 4. PODCASTS — PUBLIC (lecture)
+|--------------------------------------------------------------------------
+*/
+Route::get('/podcasts', [PodcastController::class, 'index']);
+Route::get('/podcasts/{id}', [PodcastController::class, 'show']);
+
+
+/*
+|--------------------------------------------------------------------------
+| 5. ÉPISODES — PUBLIC (lecture)
+|--------------------------------------------------------------------------
+*/
+Route::get('/episodes', [EpisodeController::class, 'index']);
+Route::get('/episodes/{id}', [EpisodeController::class, 'show']);
+
+
+/*
+|--------------------------------------------------------------------------
+| 6. PODCASTS & EPISODES — PROTÉGÉ (écriture)
+| Rôles autorisés : admin, host
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'role:admin,host'])->group(function () {
+
+    // ---- PODCASTS ----
+    Route::post('/podcasts', [PodcastController::class, 'store']);
+    Route::put('/podcasts/{id}', [PodcastController::class, 'update']);
+    Route::delete('/podcasts/{id}', [PodcastController::class, 'destroy']);
+
+    // ---- EPISODES ----
+    Route::post('/episodes', [EpisodeController::class, 'store']);
+    Route::put('/episodes/{id}', [EpisodeController::class, 'update']);
+    Route::delete('/episodes/{id}', [EpisodeController::class, 'destroy']);
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| 7. HOSTS — PUBLIC lecture
+|     MAIS création / update / delete = Rôles admin,host
+|--------------------------------------------------------------------------
+*/
+
+// PUBLIC : lecture
+Route::get('/hosts', [HostsController::class, 'index']);
+Route::get('/hosts/{id}', [HostsController::class, 'show']);
+
+// PROTÉGÉ : écriture
+Route::middleware(['auth:sanctum', 'role:admin,host'])->group(function () {
+    Route::post('/hosts', [HostsController::class, 'store']);
+    Route::put('/hosts/{id}', [HostsController::class, 'update']);
+    Route::delete('/hosts/{id}', [HostsController::class, 'destroy']);
+});

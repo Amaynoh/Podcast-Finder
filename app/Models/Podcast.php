@@ -8,13 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Podcast extends Model
 {
     use HasFactory;
-    protected $fillable = ['title','description','image','host_id',];
 
-    public function host() {
-    return $this->belongsTo(User::class, 'host_id');
-}
-    public function episodes() {
-    return $this->hasMany(Episode::class);
+    protected $fillable = ['title','description','image_url','host_id',];
+    
+    public function host()
+    {
+        return $this->belongsTo(Host::class);
+    }
+
+    public function episodes()
+    {
+        return $this->hasMany(Episode::class);
+    }
 }
 
-}
